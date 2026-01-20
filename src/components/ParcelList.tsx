@@ -62,7 +62,7 @@ export const ParcelList: React.FC<ParcelListProps> = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search parcels by name or description..."
-            className="w-full max-w-[450px] pl-12 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
+            className="w-full max-w-[450px] pl-12 pr-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-transparent transition-all"
           />
         </div>
       </motion.div>
@@ -75,7 +75,7 @@ export const ParcelList: React.FC<ParcelListProps> = ({
       >
         <p>
           Showing{" "}
-          <span className="text-[var(--color-primary)] font-semibold">
+          <span className="text-(--color-primary) font-semibold">
             {filteredParcels.length}
           </span>{" "}
           of <span className="text-white font-semibold">{parcels.length}</span>{" "}

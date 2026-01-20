@@ -88,7 +88,7 @@ function App() {
             className="mb-12 flex justify-center"
           >
             <div className="rounded-2xl p-6 sm:p-8 max-w-3xl w-full text-center">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-white mb-4">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-(--color-primary) to-white mb-4">
                 Parcel Management
               </h1>
               <p className="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">
@@ -99,7 +99,7 @@ function App() {
                 onClick={handleCreateClick}
                 variant="primary"
                 size="lg"
-                className="relative overflow-hidden shadow-lg shadow-[var(--color-primary)]/20 hover:scale-105 transition-transform w-full sm:w-auto"
+                className="relative overflow-hidden shadow-lg shadow-(--color-primary)/20 hover:scale-105 transition-transform w-full sm:w-auto"
               >
                 <div className="relative z-10 flex items-center">
                   <Icon name="plus" className="mr-2" size={20} />
@@ -115,7 +115,7 @@ function App() {
                     repeatDelay: 3,
                     ease: "easeInOut",
                   }}
-                  className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/60 to-transparent -skew-x-12"
+                  className="absolute inset-0 w-1/2 h-full bg-linear-to-r from-transparent via-white/60 to-transparent -skew-x-12"
                 />
               </Button>
             </div>

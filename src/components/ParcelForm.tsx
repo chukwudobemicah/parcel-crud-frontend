@@ -166,12 +166,8 @@ export const ParcelForm: React.FC<ParcelFormProps> = ({
     >
       <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-4 sm:px-6 sm:py-6 bg-[#1a1718]/95 backdrop-blur-sm border-b border-white/10">
         <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)]/20 flex items-center justify-center">
-            <Icon
-              name="package"
-              className="text-[var(--color-primary)]"
-              size={20}
-            />
+          <div className="w-10 h-10 rounded-lg bg-(--color-primary)/20 flex items-center justify-center">
+            <Icon name="package" className="text-(--color-primary)" size={20} />
           </div>
           {mode === "create" ? "Create New Parcel" : "Edit Parcel"}
         </h2>

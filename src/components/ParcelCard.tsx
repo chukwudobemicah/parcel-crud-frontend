@@ -24,14 +24,14 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       whileHover={{ y: -4 }}
-      className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-[var(--color-primary)]/30 transition-all duration-300 group"
+      className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-(--color-primary)/30 group"
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-3 flex-1">
-          <div className="w-12 h-12 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--color-primary)]/20 transition-colors">
+          <div className="w-12 h-12 rounded-lg bg-(--color-primary)/10 flex items-center justify-center shrink-0 group-hover:bg-(--color-primary)/20 transition-colors">
             <Icon
               name="package"
-              className="text-[var(--color-primary)]"
+              className="text-(--color-primary)]"
               size={24}
             />
           </div>
@@ -50,16 +50,14 @@ export const ParcelCard: React.FC<ParcelCardProps> = ({
         <div className="bg-white/5 rounded-lg p-3 border border-white/5">
           <p className="text-xs text-gray-400 mb-1">Quantity</p>
           <p className="text-lg font-bold text-white flex items-center gap-2">
-            <span className="text-[var(--color-primary)]">
-              {parcel.quantity}
-            </span>
+            <span className="text-(--color-primary)]">{parcel.quantity}</span>
             <span className="text-sm text-gray-500">units</span>
           </p>
         </div>
         <div className="bg-white/5 rounded-lg p-3 border border-white/5">
           <p className="text-xs text-gray-400 mb-1">Weight</p>
           <p className="text-lg font-bold text-white flex items-center gap-2">
-            <span className="text-[var(--color-primary)]">{parcel.weight}</span>
+            <span className="text-(--color-primary)]">{parcel.weight}</span>
             <span className="text-sm text-gray-500">kg</span>
           </p>
         </div>

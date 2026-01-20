@@ -51,7 +51,7 @@ export const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({
             <div className="flex items-center gap-3 mb-2">
               <Icon
                 name="package"
-                className="text-[var(--color-primary)]"
+                className="text-(--color-primary)"
                 size={20}
               />
               <p className="font-semibold text-white">{parcel.name}</p>
