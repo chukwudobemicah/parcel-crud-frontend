@@ -99,10 +99,24 @@ function App() {
                 onClick={handleCreateClick}
                 variant="primary"
                 size="lg"
-                className="shadow-lg shadow-[var(--color-primary)]/20 hover:scale-105 transition-transform w-full sm:w-auto"
+                className="relative overflow-hidden shadow-lg shadow-[var(--color-primary)]/20 hover:scale-105 transition-transform w-full sm:w-auto"
               >
-                <Icon name="plus" className="mr-2" size={20} />
-                Create New Parcel
+                <div className="relative z-10 flex items-center">
+                  <Icon name="plus" className="mr-2" size={20} />
+                  Create New Parcel
+                </div>
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "400%" }}
+                  transition={{
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 2,
+                    repeatDelay: 3,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/60 to-transparent -skew-x-12"
+                />
               </Button>
             </div>
           </motion.div>
