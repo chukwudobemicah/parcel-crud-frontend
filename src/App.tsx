@@ -12,6 +12,7 @@ import {
   Icon,
   ToastContainer,
 } from "./components";
+import useStopScroll from "./hooks/useStopScroll";
 
 function App() {
   const { parcels, createParcel, updateParcel, deleteParcel } =
@@ -70,6 +71,7 @@ function App() {
   const handleDeleteCancel = () => {
     setParcelToDelete(undefined);
   };
+  useStopScroll(showForm);
 
   return (
     <div className="min-h-screen">
