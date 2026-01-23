@@ -8,11 +8,17 @@ import {
   ParcelList,
   DeleteConfirmation,
   Navbar,
-  Button,
-  Icon,
   ToastContainer,
+  Modal,
+  HeroSection,
 } from "./components";
 import useStopScroll from "./hooks/useStopScroll";
+
+const TOAST_MESSAGES = {
+  create: "Parcel created successfully!",
+  update: "Parcel updated successfully!",
+  delete: "Parcel deleted successfully",
+} as const;
 
 function App() {
   const { parcels, createParcel, updateParcel, deleteParcel } =
@@ -24,106 +30,55 @@ function App() {
   const [parcelToDelete, setParcelToDelete] = useState<Parcel | undefined>();
   const [showForm, setShowForm] = useState(false);
 
-  const handleCreateClick = () => {
-    setFormMode("create");
-    setSelectedParcel(undefined);
-    setShowForm(true);
-  };
+  useStopScroll(showForm);
 
-  const handleEditClick = (parcel: Parcel) => {
-    setFormMode("edit");
+  const openForm = (mode: FormMode, parcel?: Parcel) => {
+    setFormMode(mode);
     setSelectedParcel(parcel);
     setShowForm(true);
   };
 
+  const closeForm = () => {
+    setShowForm(false);
+    setSelectedParcel(undefined);
+  };
+
+  const handleCreateClick = () => openForm("create");
+  const handleEditClick = (parcel: Parcel) => openForm("edit", parcel);
+
   const handleDeleteClick = (id: string) => {
     const parcel = parcels.find((p) => p.id === id);
-    if (parcel) {
-      setParcelToDelete(parcel);
-    }
+    if (parcel) setParcelToDelete(parcel);
   };
 
   const handleFormSubmit = (input: CreateParcelInput) => {
     if (formMode === "create") {
       createParcel(input);
-      addToast("Parcel created successfully!", "success");
+      addToast(TOAST_MESSAGES.create, "success");
     } else if (selectedParcel) {
       updateParcel({ ...input, id: selectedParcel.id });
-      addToast("Parcel updated successfully!", "info");
+      addToast(TOAST_MESSAGES.update, "info");
     }
-    setShowForm(false);
-    setSelectedParcel(undefined);
-  };
-
-  const handleFormCancel = () => {
-    setShowForm(false);
-    setSelectedParcel(undefined);
+    closeForm();
   };
 
   const handleDeleteConfirm = () => {
     if (parcelToDelete) {
       deleteParcel(parcelToDelete.id);
-      addToast("Parcel deleted successfully", "error");
+      addToast(TOAST_MESSAGES.delete, "error");
       setParcelToDelete(undefined);
     }
   };
 
-  const handleDeleteCancel = () => {
-    setParcelToDelete(undefined);
-  };
-  useStopScroll(showForm);
-
   return (
     <div className="min-h-screen">
       <ToastContainer />
-      {/* Navbar */}
       <Navbar onCreateClick={handleCreateClick} />
 
-      {/* Main Content */}
-      <div className="py-8 px-4 sm:px-6 lg:px-8">
+      <main className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Hero Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-12 flex justify-center"
-          >
-            <div className="rounded-2xl p-6 sm:p-8 max-w-3xl w-full text-center">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-(--color-primary) to-white mb-4">
-                Parcel Management
-              </h1>
-              <p className="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">
-                Efficiently track, manage, and organize your shipments with our
-                comprehensive real-time dashboard and CRUD system.
-              </p>
-              <Button
-                onClick={handleCreateClick}
-                variant="primary"
-                size="lg"
-                className="relative overflow-hidden shadow-lg shadow-(--color-primary)/20 hover:scale-105 transition-transform w-full sm:w-auto"
-              >
-                <div className="relative z-10 flex items-center">
-                  <Icon name="plus" className="mr-2" size={20} />
-                  Create New Parcel
-                </div>
-                <motion.div
-                  initial={{ x: "-100%" }}
-                  animate={{ x: "400%" }}
-                  transition={{
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 2,
-                    repeatDelay: 3,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute inset-0 w-1/2 h-full bg-linear-to-r from-transparent via-white/60 to-transparent -skew-x-12"
-                />
-              </Button>
-            </div>
-          </motion.div>
+          <HeroSection onCreateClick={handleCreateClick} />
 
-          {/* Parcel List */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -136,44 +91,30 @@ function App() {
             />
           </motion.div>
         </div>
-      </div>
+      </main>
 
-      {/* Parcel Form Modal */}
       <AnimatePresence>
         {showForm && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={handleFormCancel}
+          <Modal
+            onClose={closeForm}
+            className="max-w-2xl w-full max-h-[90vh] overflow-y-auto"
           >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.3 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-[#1a1718] border border-white/10 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-            >
-              <ParcelForm
-                mode={formMode}
-                parcel={selectedParcel}
-                onSubmit={handleFormSubmit}
-                onCancel={handleFormCancel}
-              />
-            </motion.div>
-          </motion.div>
+            <ParcelForm
+              mode={formMode}
+              parcel={selectedParcel}
+              onSubmit={handleFormSubmit}
+              onCancel={closeForm}
+            />
+          </Modal>
         )}
       </AnimatePresence>
 
-      {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {parcelToDelete && (
           <DeleteConfirmation
             parcel={parcelToDelete}
             onConfirm={handleDeleteConfirm}
-            onCancel={handleDeleteCancel}
+            onCancel={() => setParcelToDelete(undefined)}
           />
         )}
       </AnimatePresence>

@@ -8,6 +8,8 @@ export { Icon } from "./Icon";
 export type { IconName } from "./Icon";
 export { Navbar } from "./Navbar";
 export { ToastContainer } from "./ToastContainer";
+export { default as Modal } from "./Modal";
+export { default as HeroSection } from "./HeroSection";
 
 // Parcel Components
 export { ParcelForm } from "./ParcelForm";
