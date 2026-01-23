@@ -82,5 +82,3 @@ src/
 - **Performance**: Minimized re-renders and optimized bundle size using Vite.
 
 ---
-
-Built with ❤️ by [Your Name]
