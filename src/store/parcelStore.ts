@@ -26,7 +26,7 @@ export const useParcelStore = create<ParcelState>()(
           id: generateId(),
         };
         set((state) => ({
-          parcels: [...state.parcels, newParcel],
+          parcels: [newParcel, ...state.parcels],
         }));
         return newParcel;
       },
