@@ -33,7 +33,7 @@ export const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({
           className="bg-[#1a1718] border border-red-500/30 rounded-xl p-6 max-w-md w-full shadow-2xl shadow-red-500/20"
         >
           <div className="flex items-start gap-4 mb-6">
-            <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
               <Icon name="alert" className="text-red-500" size={24} />
             </div>
             <div className="flex-1">

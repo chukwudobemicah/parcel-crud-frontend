@@ -23,6 +23,7 @@ A fully responsive web application for efficient parcel tracking and management.
 - **State Management**: [Zustand](https://github.com/pmndrs/zustand)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Icons**: Custom SVG Icon system
+- **Testing**: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/)
 
 ## 🚀 Getting Started
 
@@ -45,7 +46,7 @@ Follow these steps to run the project locally.
 2. **Install dependencies**
 
    ```bash
-   npm install
+   pnpm install
    # or
    yarn install
    ```
@@ -53,14 +54,20 @@ Follow these steps to run the project locally.
 3. **Start the development server**
 
    ```bash
-   npm run dev
+   pnpm run dev
    # or
    yarn dev
    ```
 
 4. **Build for production**
+
    ```bash
-   npm run build
+   pnpm run build
+   ```
+
+5. **Run Tests**
+   ```bash
+   pnpm test
    ```
 
 ## 📂 Project Structure
@@ -71,6 +78,7 @@ src/
 ├── store/          # Global state stores (Zustand)
 ├── utils/          # Helper functions and validation logic
 ├── types/          # TypeScript interfaces and types
+├── test/          # Test setup and configuration
 ├── App.tsx         # Main application component
 └── main.tsx        # Entry point
 ```

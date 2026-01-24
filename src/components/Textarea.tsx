@@ -9,15 +9,21 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, error, helperText, className, ...props }, ref) => {
+    const textareaId = props.id || label?.toLowerCase().replace(/\s+/g, "-");
+
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label
+            htmlFor={textareaId}
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
             {label}
             {props.required && <span className="text-red-400 ml-1">*</span>}
           </label>
         )}
         <textarea
+          id={textareaId}
           ref={ref}
           className={cn(
             "w-full px-4 py-2.5 rounded-lg",

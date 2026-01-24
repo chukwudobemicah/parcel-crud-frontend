@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ParcelCard } from "../ParcelCard";
 import { Parcel } from "../../types/parcel";
 
@@ -15,8 +15,8 @@ describe("ParcelCard", () => {
   const mockOnEdit = vi.fn();
   const mockOnDelete = vi.fn();
 
-  it("renders parcel details correctly", () => {
-    render(
+  const setup = () => {
+    const utils = render(
       <ParcelCard
         parcel={mockParcel}
         onEdit={mockOnEdit}
@@ -24,40 +24,33 @@ describe("ParcelCard", () => {
         index={0}
       />,
     );
+    return {
+      ...utils,
+      editButton: screen.getByRole("button", { name: /edit/i }),
+      deleteButton: screen.getByRole("button", { name: /delete/i }),
+    };
+  };
 
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("renders parcel details correctly", () => {
+    setup();
     expect(screen.getByText("Test Parcel")).toBeInTheDocument();
     expect(screen.getByText("Test Description")).toBeInTheDocument();
-    // Check for quantity (10) explicitly within its context if needed, but getByText works
     expect(screen.getByText("10")).toBeInTheDocument();
     expect(screen.getByText("5")).toBeInTheDocument();
   });
 
   it("calls onEdit when edit button is clicked", () => {
-    render(
-      <ParcelCard
-        parcel={mockParcel}
-        onEdit={mockOnEdit}
-        onDelete={mockOnDelete}
-        index={0}
-      />,
-    );
-
-    const editButton = screen.getByRole("button", { name: /edit/i });
+    const { editButton } = setup();
     fireEvent.click(editButton);
     expect(mockOnEdit).toHaveBeenCalledTimes(1);
   });
 
   it("calls onDelete when delete button is clicked", () => {
-    render(
-      <ParcelCard
-        parcel={mockParcel}
-        onEdit={mockOnEdit}
-        onDelete={mockOnDelete}
-        index={0}
-      />,
-    );
-
-    const deleteButton = screen.getByRole("button", { name: /delete/i });
+    const { deleteButton } = setup();
     fireEvent.click(deleteButton);
     expect(mockOnDelete).toHaveBeenCalledTimes(1);
   });

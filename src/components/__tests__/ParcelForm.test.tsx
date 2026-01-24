@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 import { ParcelForm } from "../ParcelForm";
 import { useToastStore } from "../../store/toastStore";
 
@@ -15,44 +15,43 @@ describe("ParcelForm", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useToastStore as any).mockReturnValue({ addToast: mockAddToast });
+    (useToastStore as unknown as Mock).mockReturnValue({
+      addToast: mockAddToast,
+    });
   });
 
-  it("renders create form correctly", () => {
-    render(
+  const setup = () => {
+    const utils = render(
       <ParcelForm
         mode="create"
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
       />,
     );
+    return {
+      ...utils,
+      nameInput: screen.getByLabelText(/Parcel Name/i),
+      descInput: screen.getByLabelText(/Description/i),
+      qtyInput: screen.getByLabelText(/Quantity/i),
+      weightInput: screen.getByLabelText(/Weight/i),
+      submitButton: screen.getByRole("button", { name: /Create Parcel/i }),
+    };
+  };
+
+  it("renders create form correctly", () => {
+    const { nameInput, descInput, qtyInput, weightInput } = setup();
 
     expect(screen.getByText("Create New Parcel")).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText("Enter parcel name"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText("Enter parcel description"),
-    ).toBeInTheDocument();
-    // Quantity placeholder is "0"
-    expect(screen.getByPlaceholderText("0")).toBeInTheDocument();
-    // Weight placeholder is "0.0"
-    expect(screen.getByPlaceholderText("0.0")).toBeInTheDocument();
+    expect(nameInput).toBeInTheDocument();
+    expect(descInput).toBeInTheDocument();
+    expect(qtyInput).toBeInTheDocument();
+    expect(weightInput).toBeInTheDocument();
   });
 
   it("validates form inputs", () => {
-    render(
-      <ParcelForm
-        mode="create"
-        onSubmit={mockOnSubmit}
-        onCancel={mockOnCancel}
-      />,
-    );
-
-    const submitButton = screen.getByRole("button", { name: /Create Parcel/i });
+    const { submitButton } = setup();
     fireEvent.click(submitButton);
 
-    // Check if toast was called
     expect(mockAddToast).toHaveBeenCalledWith(
       "Please fill in all required fields correctly",
       "error",
@@ -61,28 +60,14 @@ describe("ParcelForm", () => {
   });
 
   it("submits form with valid data", () => {
-    render(
-      <ParcelForm
-        mode="create"
-        onSubmit={mockOnSubmit}
-        onCancel={mockOnCancel}
-      />,
-    );
+    const { nameInput, descInput, qtyInput, weightInput, submitButton } =
+      setup();
 
-    fireEvent.change(screen.getByPlaceholderText("Enter parcel name"), {
-      target: { value: "New Parcel" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("Enter parcel description"), {
-      target: { value: "Description" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("0"), {
-      target: { value: "5" },
-    });
-    fireEvent.change(screen.getByPlaceholderText("0.0"), {
-      target: { value: "2.5" },
-    });
+    fireEvent.change(nameInput, { target: { value: "New Parcel" } });
+    fireEvent.change(descInput, { target: { value: "Description" } });
+    fireEvent.change(qtyInput, { target: { value: "5" } });
+    fireEvent.change(weightInput, { target: { value: "2.5" } });
 
-    const submitButton = screen.getByRole("button", { name: /Create Parcel/i });
     fireEvent.click(submitButton);
 
     expect(mockOnSubmit).toHaveBeenCalledWith({
